@@ -1,8 +1,12 @@
+import Image from 'next/image'
+
+import logo from '../../../public/logo-tallownara.png'
+
 export default function HomePage() {
   return (
     <div className="mx-auto flex min-h-dvh max-w-[90rem] flex-col px-5 sm:px-10">
       <header className="border-b border-stone py-5">
-        <p className="font-serif text-2xl tracking-tight text-olive">Tallownara</p>
+        <Image src={logo} alt="Tallownara" priority className="h-8 w-auto sm:h-9" />
       </header>
 
       <main className="grid flex-1 grid-cols-12 content-center gap-x-6 gap-y-10 py-16 sm:py-24">
@@ -20,7 +24,7 @@ export default function HomePage() {
           </p>
           <p className="mt-4 text-muted">Toko online kami sedang disiapkan.</p>
           <a
-            href="https://wa.me/628211212301"
+            href="https://wa.me/628158192911"
             className="mt-6 inline-block rounded-[4px] bg-forest px-5 py-3 font-medium text-ivory no-underline transition-colors duration-200 hover:bg-olive-deep hover:text-ivory"
           >
             Tanya lewat WhatsApp
