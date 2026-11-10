@@ -1,0 +1,24 @@
+:root {
+  /* Permukaan */
+  --ivory: #fbf8ec;
+  --paper: #f3eedb;
+  --stone: #e4dcc4;
+
+  /* Merek */
+  --olive: #6b5a1f;
+  --olive-deep: #4a3e14;
+
+  /* Aksen */
+  --sage: #6f7d5c;
+  --forest: #3e5233;
+  --amber: #7a3f1c;
+
+  /* Teks */
+  --ink: #22201a;
+  --muted: #6a6455;
+
+  /* Status */
+  --success: var(--forest);
+  --warning: #9a6b12;
+  --error: #9b2c1f;
+}

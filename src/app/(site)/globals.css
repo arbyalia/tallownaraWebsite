@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+@import '../../styles/tokens.css';
+
+@theme inline {
+  --color-ivory: var(--ivory);
+  --color-paper: var(--paper);
+  --color-stone: var(--stone);
+  --color-olive: var(--olive);
+  --color-olive-deep: var(--olive-deep);
+  --color-sage: var(--sage);
+  --color-forest: var(--forest);
+  --color-amber: var(--amber);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+
+  --font-serif: var(--font-newsreader), Georgia, serif;
+  --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background-color: var(--ivory);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 100%;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--olive-deep);
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  a {
+    color: var(--forest);
+    text-underline-offset: 0.2em;
+  }
+
+  a:hover {
+    color: var(--olive-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--forest);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

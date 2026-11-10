@@ -1,0 +1,28 @@
+# Dependensi
+node_modules/
+
+# Build
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Rahasia
+.env
+.env.*
+!.env.example
+
+# Unggahan media lokal
+/media/
+
+# Tes
+coverage/
+playwright-report/
+test-results/
+
+# Sistem & editor
+.DS_Store
+.idea/
+.vscode/
+*.log
