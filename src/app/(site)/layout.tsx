@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import { Newsreader, Plus_Jakarta_Sans } from 'next/font/google'
 import type { ReactNode } from 'react'
 
+import { SiteFooter } from '@/components/SiteFooter'
+import { SiteHeader } from '@/components/SiteHeader'
+
 import './globals.css'
 
 const newsreader = Newsreader({
@@ -30,7 +33,19 @@ export const metadata: Metadata = {
 export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="id" className={`${newsreader.variable} ${plusJakarta.variable}`}>
-      <body className="min-h-dvh text-base sm:text-lg">{children}</body>
+      <body className="flex min-h-dvh flex-col text-base sm:text-lg">
+        <a
+          href="#isi"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-5 focus:top-3 focus:z-10 focus:bg-ivory focus:px-3 focus:py-2"
+        >
+          Langsung ke isi
+        </a>
+        <SiteHeader />
+        <main id="isi" tabIndex={-1} className="flex flex-1 flex-col focus:outline-none">
+          {children}
+        </main>
+        <SiteFooter />
+      </body>
     </html>
   )
 }

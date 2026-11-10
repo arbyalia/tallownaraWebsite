@@ -14,6 +14,7 @@ Website profil dan toko online tallownara.com. Next.js, Payload CMS 3, PostgreSQ
 cp .env.example .env              # lalu isi POSTGRES_PASSWORD, DATABASE_URL, PAYLOAD_SECRET
 corepack pnpm install
 corepack pnpm db:up               # menyalakan PostgreSQL di port 5433
+corepack pnpm seed                # mengisi konten awal; aman diulang, konten yang ada tidak ditimpa
 corepack pnpm dev
 ```
 

@@ -6,8 +6,10 @@ import { id } from '@payloadcms/translations/languages/id'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 
+import { Achievements } from './collections/Achievements'
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
+import { About } from './globals/About'
 import { serverEnv } from './lib/env'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -18,7 +20,8 @@ export default buildConfig({
     importMap: { baseDir: dirname },
     meta: { titleSuffix: ' · Tallownara' },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Achievements],
+  globals: [About],
   db: postgresAdapter({
     pool: { connectionString: serverEnv.DATABASE_URL },
   }),

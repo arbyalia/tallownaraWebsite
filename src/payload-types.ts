@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    achievements: Achievement;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +79,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    achievements: AchievementsSelect<false> | AchievementsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -87,8 +89,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    about: About;
+  };
+  globalsSelect: {
+    about: AboutSelect<false> | AboutSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -164,6 +170,29 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements".
+ */
+export interface Achievement {
+  id: number;
+  title: string;
+  kind: 'lomba' | 'acara';
+  /**
+   * Contoh: Mei 2026
+   */
+  dateLabel?: string | null;
+  location?: string | null;
+  summary?: string | null;
+  photos?: (number | Media)[] | null;
+  /**
+   * Angka kecil tampil lebih dulu.
+   */
+  sortOrder: number;
+  isVisible?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -193,6 +222,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'achievements';
+        value: number | Achievement;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -279,6 +312,22 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements_select".
+ */
+export interface AchievementsSelect<T extends boolean = true> {
+  title?: T;
+  kind?: T;
+  dateLabel?: T;
+  location?: T;
+  summary?: T;
+  photos?: T;
+  sortOrder?: T;
+  isVisible?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -316,6 +365,88 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about".
+ */
+export interface About {
+  id: number;
+  heroTitle?: string | null;
+  /**
+   * Pisahkan paragraf dengan satu baris kosong.
+   */
+  storyBody?: string | null;
+  storyImage?: (number | null) | Media;
+  vision?: string | null;
+  missions?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  sourcingTitle?: string | null;
+  /**
+   * Pisahkan paragraf dengan satu baris kosong.
+   */
+  sourcingBody?: string | null;
+  sourcingImage?: (number | null) | Media;
+  sourcingPoints?:
+    | {
+        title: string;
+        body: string;
+        id?: string | null;
+      }[]
+    | null;
+  team?:
+    | {
+        name: string;
+        role: string;
+        group: 'founder' | 'advisor';
+        photo?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about_select".
+ */
+export interface AboutSelect<T extends boolean = true> {
+  heroTitle?: T;
+  storyBody?: T;
+  storyImage?: T;
+  vision?: T;
+  missions?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  sourcingTitle?: T;
+  sourcingBody?: T;
+  sourcingImage?: T;
+  sourcingPoints?:
+    | T
+    | {
+        title?: T;
+        body?: T;
+        id?: T;
+      };
+  team?:
+    | T
+    | {
+        name?: T;
+        role?: T;
+        group?: T;
+        photo?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
