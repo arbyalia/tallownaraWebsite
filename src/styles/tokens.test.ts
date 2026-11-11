@@ -24,7 +24,7 @@ function contrast(a: string, b: string): number {
 }
 
 describe('kontras token warna', () => {
-  const backgrounds = ['ivory', 'paper']
+  const backgrounds = ['white', 'ivory', 'paper']
   const textTokens = ['ink', 'muted', 'olive', 'olive-deep', 'forest', 'amber', 'error']
 
   for (const background of backgrounds) {

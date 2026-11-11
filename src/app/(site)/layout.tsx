@@ -21,6 +21,8 @@ const plusJakarta = Plus_Jakarta_Sans({
   variable: '--font-plus-jakarta',
 })
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
   title: {
@@ -36,7 +38,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
       <body className="flex min-h-dvh flex-col text-base sm:text-lg">
         <a
           href="#isi"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-5 focus:top-3 focus:z-10 focus:bg-ivory focus:px-3 focus:py-2"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-5 focus:top-3 focus:z-40 focus:bg-white focus:px-3 focus:py-2"
         >
           Langsung ke isi
         </a>

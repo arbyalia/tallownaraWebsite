@@ -12,7 +12,7 @@ export default function ErrorPage({ retry }: { error: unknown; retry: () => void
         <button
           type="button"
           onClick={() => retry()}
-          className="cursor-pointer rounded-[4px] bg-forest px-5 py-3 font-medium text-ivory hover:bg-olive-deep"
+          className="btn btn-primary"
         >
           Coba lagi
         </button>

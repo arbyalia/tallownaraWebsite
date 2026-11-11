@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import { EmptyState } from '@/components/EmptyState'
 import { MediaImage } from '@/components/MediaImage'
+import { TemplateText } from '@/components/TemplateText'
 import { getVisibleAchievements } from '@/lib/content'
 import type { Achievement } from '@/payload-types'
 
@@ -23,28 +24,35 @@ function AchievementEntry({ item }: { item: Achievement }) {
   return (
     <article className="grid grid-cols-12 gap-x-6 gap-y-3 border-t border-stone py-8">
       <p className="col-span-12 text-sm text-muted sm:text-base lg:col-span-3">
-        {[item.dateLabel, item.location].filter(Boolean).join(' · ')}
+        <TemplateText text={[item.dateLabel, item.location].filter(Boolean).join(' · ')} />
       </p>
       <div className="col-span-12 lg:col-span-9">
-        <h3 className="text-3xl font-normal sm:text-4xl">{item.title}</h3>
-        {item.summary && <p className="mt-3 max-w-2xl whitespace-pre-line">{item.summary}</p>}
+        <h3 className="text-3xl font-normal sm:text-4xl">
+          <TemplateText text={item.title} />
+        </h3>
+        {item.summary && (
+          <p className="mt-3 max-w-2xl whitespace-pre-line">
+            <TemplateText text={item.summary} />
+          </p>
+        )}
         {photos.length > 0 && (
           <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3">
-            {photos.map((photo, index) => (
-              <div
-                key={typeof photo === 'number' ? photo : photo.id}
-                className={index === 0 ? 'col-span-2' : undefined}
-              >
-                <MediaImage
-                  media={photo}
-                  sizes={
-                    index === 0
-                      ? '(min-width: 1024px) 50vw, 100vw'
-                      : '(min-width: 1024px) 25vw, 50vw'
-                  }
-                />
-              </div>
-            ))}
+            {photos.map((photo, index) => {
+              const isLead = index === 0
+              const fillsTwoRows = isLead && photos.length >= 3
+              return (
+                <div
+                  key={typeof photo === 'number' ? photo : photo.id}
+                  className={`${isLead ? 'col-span-2' : ''} ${fillsTwoRows ? 'lg:row-span-2' : ''}`}
+                >
+                  <MediaImage
+                    media={photo}
+                    sizes={isLead ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 1024px) 25vw, 50vw'}
+                    className={`aspect-[3/2] ${fillsTwoRows ? 'lg:aspect-auto lg:h-full' : ''}`}
+                  />
+                </div>
+              )
+            })}
           </div>
         )}
       </div>
@@ -69,9 +77,7 @@ export default async function GalleryPage() {
   return (
     <div className="page-shell pb-16 sm:pb-24">
       <div className="py-16 sm:py-24">
-        <h1 className="text-[3.5rem] font-normal sm:text-[4.5rem] lg:text-[5.5rem]">
-          Pencapaian &amp; acara
-        </h1>
+        <h1 className="display">Pencapaian &amp; acara</h1>
         <p className="mt-6 max-w-xl text-muted">Jejak Tallownara di panggung kompetisi dan pameran.</p>
       </div>
 
@@ -82,7 +88,7 @@ export default async function GalleryPage() {
 
           return (
             <section key={kind}>
-              <h2 className="pb-6 text-4xl font-normal sm:text-5xl">{heading}</h2>
+              <h2 className="section-title pb-6">{heading}</h2>
               {items.map((item) => (
                 <AchievementEntry key={item.id} item={item} />
               ))}

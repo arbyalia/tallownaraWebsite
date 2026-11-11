@@ -1,5 +1,6 @@
 :root {
   /* Permukaan */
+  --white: #ffffff;
   --ivory: #fbf8ec;
   --paper: #f3eedb;
   --stone: #e4dcc4;
@@ -21,4 +22,21 @@
   --success: var(--forest);
   --warning: #9a6b12;
   --error: #9b2c1f;
+}
+
+:root {
+  /* Sudut membulat */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+
+  /* Kaca (efek blur) */
+  --glass-fill: rgb(251 248 236 / 0.68);
+  --glass-fill-strong: rgb(251 248 236 / 0.82);
+  --glass-edge: rgb(255 255 255 / 0.72);
+  --glass-blur: 22px;
+
+  /* Bayangan lembut, berlapis */
+  --shadow-soft: 0 1px 2px rgb(34 32 26 / 0.05), 0 16px 40px -18px rgb(34 32 26 / 0.22);
+  --shadow-float: 0 1px 2px rgb(34 32 26 / 0.06), 0 28px 60px -24px rgb(34 32 26 / 0.32);
 }

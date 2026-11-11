@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 
 import { EmptyState } from '@/components/EmptyState'
 import { MediaImage } from '@/components/MediaImage'
@@ -21,14 +22,14 @@ function TeamList({ heading, members }: { heading: string; members: TeamMember[]
 
   return (
     <div>
-      <h2 className="text-4xl font-normal sm:text-5xl">{heading}</h2>
+      <h2 className="section-title">{heading}</h2>
       <ul className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {members.map((member) => (
           <li key={member.id ?? member.name} className="border-t border-stone pt-4">
             <MediaImage
               media={member.photo}
-              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-              className="mb-4 aspect-[4/5]"
+              sizes="176px"
+              className="mb-4 aspect-square max-w-44"
             />
             <p className="font-serif text-2xl leading-tight text-olive-deep">{member.name}</p>
             <p className="mt-1 text-muted">{member.role}</p>
@@ -61,12 +62,20 @@ export default async function AboutPage() {
 
   return (
     <div className="page-shell">
-      <section className="grid grid-cols-12 gap-x-6 gap-y-10 py-16 sm:py-24">
+      <section className="grid grid-cols-12 gap-x-6 gap-y-10 py-14 sm:py-20">
         <div className="col-span-12 lg:col-span-10">
-          {about.heroTitle && <p className="text-sm text-muted sm:text-base">Tentang kami</p>}
-          <h1 className="mt-4 text-[3.5rem] font-normal sm:text-[4.5rem] lg:text-[5.5rem]">
-            {about.heroTitle ?? 'Tentang kami'}
-          </h1>
+          <p className="kicker">Tentang kami</p>
+          <h1 className="display mt-4">{about.heroTitle ?? 'Tentang kami'}</h1>
+        </div>
+        <div className="media-round relative col-span-12 aspect-[4/3] sm:aspect-[16/9]">
+          <Image
+            src="/foto/hero-peternakan.webp"
+            alt="Produk Tallownara di peternakan saat matahari terbenam"
+            fill
+            priority
+            sizes="(min-width: 1440px) 1360px, 100vw"
+            className="object-cover"
+          />
         </div>
         {about.storyImage && (
           <div className="col-span-12 lg:col-span-5">
@@ -84,7 +93,7 @@ export default async function AboutPage() {
         <section className="grid grid-cols-12 gap-x-6 gap-y-12 border-t border-stone py-16 sm:py-24">
           {about.vision && (
             <div className="col-span-12 lg:col-span-5">
-              <h2 className="text-4xl font-normal sm:text-5xl">Visi</h2>
+              <h2 className="section-title">Visi</h2>
               <p className="mt-6 font-serif text-2xl leading-snug text-ink sm:text-3xl">
                 {about.vision}
               </p>
@@ -92,7 +101,7 @@ export default async function AboutPage() {
           )}
           {missions.length > 0 && (
             <div className="col-span-12 lg:col-span-6 lg:col-start-7">
-              <h2 className="text-4xl font-normal sm:text-5xl">Misi</h2>
+              <h2 className="section-title">Misi</h2>
               <ol className="mt-6 list-decimal space-y-4 pl-6 marker:text-olive">
                 {missions.map((mission) => (
                   <li key={mission.id ?? mission.text} className="pl-2">
@@ -108,8 +117,8 @@ export default async function AboutPage() {
       {(about.sourcingBody || points.length > 0) && (
         <section className="grid grid-cols-12 gap-x-6 gap-y-10 border-t border-stone py-16 sm:py-24">
           <div className="col-span-12 lg:col-span-6">
-            <p className="text-sm text-muted sm:text-base">Sumber bahan baku dan proses</p>
-            <h2 className="mt-4 text-4xl font-normal sm:text-5xl">
+            <p className="kicker">Sumber bahan baku dan proses</p>
+            <h2 className="section-title mt-4">
               {about.sourcingTitle ?? 'Bahan baku kami'}
             </h2>
             <div className="mt-6">

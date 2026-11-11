@@ -13,7 +13,9 @@ export function EmptyState({ title, body, href, action }: EmptyStateProps) {
       <h1 className="text-5xl font-normal">{title}</h1>
       <p className="mt-4 max-w-xl text-muted">{body}</p>
       <p className="mt-6">
-        <Link href={href}>{action}</Link>
+        <Link href={href} className="btn btn-primary">
+          {action}
+        </Link>
       </p>
     </div>
   )

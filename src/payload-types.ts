@@ -67,9 +67,16 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
-    media: Media;
+    products: Product;
+    orders: Order;
+    reviews: Review;
     achievements: Achievement;
+    'legal-pages': LegalPage;
+    faqs: Faq;
+    media: Media;
+    users: User;
+    'otp-codes': OtpCode;
+    'webhook-events': WebhookEvent;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -77,9 +84,16 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     achievements: AchievementsSelect<false> | AchievementsSelect<true>;
+    'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
+    'otp-codes': OtpCodesSelect<false> | OtpCodesSelect<true>;
+    'webhook-events': WebhookEventsSelect<false> | WebhookEventsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -90,9 +104,11 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
+    'site-settings': SiteSetting;
     about: About;
   };
   globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
   };
   locale: null;
@@ -125,6 +141,213 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  name: string;
+  /**
+   * Huruf kecil dan tanda hubung. Contoh: luxury-tallow-balm
+   */
+  slug: string;
+  tagline?: string | null;
+  /**
+   * Contoh: 120 ml
+   */
+  sizeLabel?: string | null;
+  price: number;
+  stock: number;
+  weightGrams: number;
+  /**
+   * Hilangkan centang setelah harga asli diisi. Selama tercentang, website menandai harga sebagai contoh.
+   */
+  isExamplePrice?: boolean | null;
+  images?: (number | Media)[] | null;
+  /**
+   * Pakai bahasa kosmetik. Hindari klaim mengobati atau menyembuhkan.
+   */
+  description?: string | null;
+  benefits?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  howToUse?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  ingredients?: string | null;
+  storage?: string | null;
+  bpomNumber: string;
+  halalNumber: string;
+  isBestSeller?: boolean | null;
+  isVisible?: boolean | null;
+  /**
+   * Angka kecil tampil lebih dulu.
+   */
+  sortOrder: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * Status Dibayar hanya diisi otomatis dari konfirmasi gateway pembayaran.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  code: string;
+  status:
+    | 'menunggu_pembayaran'
+    | 'dibayar'
+    | 'dikemas'
+    | 'dikirim'
+    | 'selesai'
+    | 'kedaluwarsa'
+    | 'dibatalkan'
+    | 'dikembalikan';
+  items: {
+    productId: number;
+    name: string;
+    unitPrice: number;
+    quantity: number;
+    weightGrams: number;
+    id?: string | null;
+  }[];
+  subtotal: number;
+  shippingCost: number;
+  total: number;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  addressStreet: string;
+  areaLabel: string;
+  areaId: string;
+  postalCode: string;
+  trackingNumber?: string | null;
+  shippingProvider: string;
+  courierCode: string;
+  courierName: string;
+  serviceCode: string;
+  serviceName: string;
+  paymentProvider?: string | null;
+  paymentUrl?: string | null;
+  accessToken: string;
+  expiresAt: string;
+  paidAt?: string | null;
+  statusHistory?:
+    | {
+        status: string;
+        at: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Ulasan hanya tampil di website setelah statusnya Disetujui.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  authorName: string;
+  authorNote?: string | null;
+  product?: (number | null) | Product;
+  rating: number;
+  body: string;
+  photo?: (number | null) | Media;
+  status: 'menunggu' | 'disetujui' | 'ditolak';
+  isFeatured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements".
+ */
+export interface Achievement {
+  id: number;
+  title: string;
+  kind: 'lomba' | 'acara';
+  /**
+   * Contoh: Mei 2026
+   */
+  dateLabel?: string | null;
+  location?: string | null;
+  summary?: string | null;
+  photos?: (number | Media)[] | null;
+  /**
+   * Angka kecil tampil lebih dulu.
+   */
+  sortOrder: number;
+  isVisible?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-pages".
+ */
+export interface LegalPage {
+  id: number;
+  title: string;
+  slug: string;
+  lead?: string | null;
+  updatedLabel?: string | null;
+  sections?:
+    | {
+        heading: string;
+        /**
+         * Pisahkan paragraf dengan satu baris kosong.
+         */
+        body: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  answer: string;
+  category: 'produk' | 'pesanan' | 'pengiriman';
+  sortOrder: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -151,43 +374,26 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "otp-codes".
  */
-export interface Media {
+export interface OtpCode {
   id: number;
-  alt: string;
+  phone: string;
+  codeHash: string;
+  expiresAt: string;
+  attempts: number;
+  consumedAt?: string | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "achievements".
+ * via the `definition` "webhook-events".
  */
-export interface Achievement {
+export interface WebhookEvent {
   id: number;
-  title: string;
-  kind: 'lomba' | 'acara';
-  /**
-   * Contoh: Mei 2026
-   */
-  dateLabel?: string | null;
-  location?: string | null;
-  summary?: string | null;
-  photos?: (number | Media)[] | null;
-  /**
-   * Angka kecil tampil lebih dulu.
-   */
-  sortOrder: number;
-  isVisible?: boolean | null;
+  eventId: string;
+  source: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -216,16 +422,44 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: number | Order;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: number | Review;
+      } | null)
+    | ({
+        relationTo: 'achievements';
+        value: number | Achievement;
+      } | null)
+    | ({
+        relationTo: 'legal-pages';
+        value: number | LegalPage;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: number | Faq;
       } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'achievements';
-        value: number | Achievement;
+        relationTo: 'users';
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'otp-codes';
+        value: number | OtpCode;
+      } | null)
+    | ({
+        relationTo: 'webhook-events';
+        value: number | WebhookEvent;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -271,6 +505,172 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  tagline?: T;
+  sizeLabel?: T;
+  price?: T;
+  stock?: T;
+  weightGrams?: T;
+  isExamplePrice?: T;
+  images?: T;
+  description?: T;
+  benefits?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  howToUse?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  ingredients?: T;
+  storage?: T;
+  bpomNumber?: T;
+  halalNumber?: T;
+  isBestSeller?: T;
+  isVisible?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  code?: T;
+  status?: T;
+  items?:
+    | T
+    | {
+        productId?: T;
+        name?: T;
+        unitPrice?: T;
+        quantity?: T;
+        weightGrams?: T;
+        id?: T;
+      };
+  subtotal?: T;
+  shippingCost?: T;
+  total?: T;
+  customerName?: T;
+  customerEmail?: T;
+  customerPhone?: T;
+  addressStreet?: T;
+  areaLabel?: T;
+  areaId?: T;
+  postalCode?: T;
+  trackingNumber?: T;
+  shippingProvider?: T;
+  courierCode?: T;
+  courierName?: T;
+  serviceCode?: T;
+  serviceName?: T;
+  paymentProvider?: T;
+  paymentUrl?: T;
+  accessToken?: T;
+  expiresAt?: T;
+  paidAt?: T;
+  statusHistory?:
+    | T
+    | {
+        status?: T;
+        at?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  authorName?: T;
+  authorNote?: T;
+  product?: T;
+  rating?: T;
+  body?: T;
+  photo?: T;
+  status?: T;
+  isFeatured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements_select".
+ */
+export interface AchievementsSelect<T extends boolean = true> {
+  title?: T;
+  kind?: T;
+  dateLabel?: T;
+  location?: T;
+  summary?: T;
+  photos?: T;
+  sortOrder?: T;
+  isVisible?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-pages_select".
+ */
+export interface LegalPagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  lead?: T;
+  updatedLabel?: T;
+  sections?:
+    | T
+    | {
+        heading?: T;
+        body?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  category?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -294,35 +694,24 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "otp-codes_select".
  */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
+export interface OtpCodesSelect<T extends boolean = true> {
+  phone?: T;
+  codeHash?: T;
+  expiresAt?: T;
+  attempts?: T;
+  consumedAt?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "achievements_select".
+ * via the `definition` "webhook-events_select".
  */
-export interface AchievementsSelect<T extends boolean = true> {
-  title?: T;
-  kind?: T;
-  dateLabel?: T;
-  location?: T;
-  summary?: T;
-  photos?: T;
-  sortOrder?: T;
-  isVisible?: T;
+export interface WebhookEventsSelect<T extends boolean = true> {
+  eventId?: T;
+  source?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -368,6 +757,26 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  legalName?: string | null;
+  legalAddress?: string | null;
+  nib?: string | null;
+  hours?: string | null;
+  stats?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "about".
  */
 export interface About {
@@ -409,6 +818,26 @@ export interface About {
     | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  legalName?: T;
+  legalAddress?: T;
+  nib?: T;
+  hours?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

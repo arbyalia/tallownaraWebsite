@@ -7,9 +7,17 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 
 import { Achievements } from './collections/Achievements'
+import { Faqs } from './collections/Faqs'
+import { LegalPages } from './collections/LegalPages'
 import { Media } from './collections/Media'
+import { Orders } from './collections/Orders'
+import { OtpCodes } from './collections/OtpCodes'
+import { Products } from './collections/Products'
+import { Reviews } from './collections/Reviews'
 import { Users } from './collections/Users'
+import { WebhookEvents } from './collections/WebhookEvents'
 import { About } from './globals/About'
+import { SiteSettings } from './globals/SiteSettings'
 import { serverEnv } from './lib/env'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -20,8 +28,19 @@ export default buildConfig({
     importMap: { baseDir: dirname },
     meta: { titleSuffix: ' · Tallownara' },
   },
-  collections: [Users, Media, Achievements],
-  globals: [About],
+  collections: [
+    Products,
+    Orders,
+    Reviews,
+    Achievements,
+    LegalPages,
+    Faqs,
+    Media,
+    Users,
+    OtpCodes,
+    WebhookEvents,
+  ],
+  globals: [SiteSettings, About],
   db: postgresAdapter({
     pool: { connectionString: serverEnv.DATABASE_URL },
   }),
